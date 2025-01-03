@@ -1,0 +1,7 @@
+.layer {
+    transition: all 0.3s;
+}
+
+.layer:hover {
+    background-color: var(--off-white);
+}

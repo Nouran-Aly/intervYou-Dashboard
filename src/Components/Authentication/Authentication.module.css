@@ -1,0 +1,59 @@
+.authTemplate {
+    background-color: var(--dark-navy-blue);
+    /* height: 100vh; */
+    padding-top: 64px;
+    padding-bottom: 64px;
+    height: max-content;
+    width: 100%;
+    /* background-color: var(--dark-blue-color); */
+    /* background-image: url(../src/assets/targett.jpg),
+        url(../src/assets/targett.jpg); */
+    background-repeat: no-repeat;
+    background-size: 200px;
+    background-position: top right, bottom left;
+    padding-top: 50px;
+}
+
+/* 0E1B2A */
+
+
+.rightSide {
+    background-image: linear-gradient(to right, var(--mint-green), var(--dark-blue));
+}
+
+.signInBtn {
+    background-image: linear-gradient(to right, var(--mint-green), var(--dark-blue)) !important;
+    transition: all 0.3s ease;
+}
+
+.signInBtn:hover {
+    opacity: 0.8;
+}
+
+.inputBox input {
+    padding: 12px 0;
+    padding-left: 60px;
+    margin-top: 10px;
+}
+
+.icon {
+    position: absolute;
+    font-size: 18px;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+}
+
+.icon i {
+    color: var(--mint-green);
+}
+
+.showPassword {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--dark-blue);
+    font-size: 18px;
+}

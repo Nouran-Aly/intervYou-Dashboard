@@ -1,0 +1,39 @@
+.logo {
+    width: 200px;
+}
+
+/* AUTH LAYOUT */
+.loginBtn {
+    outline: none;
+    background-color: var(--dark-blue) !important;
+    transition: all 0.3s;
+}
+
+.registerBtn {
+    outline: none;
+    border: none;
+    background-image: linear-gradient(to right, var(--mint-green), var(--dark-blue));
+    transition: all 0.3s;
+}
+
+.loginBtn:hover,
+.registerBtn:hover {
+    opacity: 0.8;
+}
+
+/* LAYOUT */
+
+.navbarItem:hover {
+    background-color: var(--dark-blue);
+    transition: all 0.3s;
+    border-radius: 10px;
+}
+
+.pageBody {
+    background-color: var(--off-white);
+}
+
+.icon {
+    width: 40px;
+    height: 40px;
+}
