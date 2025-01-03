@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
-import styles from "./styles.module.css";
+import styles from "./Styles.module.css";
 import warning from "../../assets/warning.png";
 import * as Yup from "yup";
 
