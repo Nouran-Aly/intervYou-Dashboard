@@ -10,7 +10,7 @@ export default function MockInterviews() {
     const [categories, setCategories] = useState([]);
 
     async function getQuestions() {
-        return await axios.get("http://intervyouquestions.runasp.net/api/Questions")
+        return await axios.get("https://intervyouquestions.runasp.net/api/Questions")
             .then((res) => {
                 console.log(res.data, "Questions");
                 setQuestions(res.data)
@@ -20,7 +20,7 @@ export default function MockInterviews() {
     }
 
     async function getTopics() {
-        return await axios.get("http://intervyouquestions.runasp.net/api/Topics")
+        return await axios.get("https://intervyouquestions.runasp.net/api/Topics")
             .then((res) => {
                 console.log(res.data, "Topics");
                 setTopics(res.data)
@@ -31,7 +31,7 @@ export default function MockInterviews() {
 
     async function getCategory() {
         return axios
-            .get("http://intervyouquestions.runasp.net/api/Categories")
+            .get("https://intervyouquestions.runasp.net/api/Categories")
             .then((res) => {
                 console.log(res.data, "categories");
                 setCategories(res.data);
@@ -64,7 +64,7 @@ export default function MockInterviews() {
     //   delete question
     async function deleteQuestion(qId) {
         return axios
-            .delete(`http://intervyouquestions.runasp.net/api/Questions/${qId}`)
+            .delete(`https://intervyouquestions.runasp.net/api/Questions/${qId}`)
             .then((res) => {
                 console.log(res);
                 getQuestions()
@@ -77,7 +77,7 @@ export default function MockInterviews() {
     //   delete Topic
     async function deleteTopic(topicId) {
         return axios
-            .delete(`http://intervyouquestions.runasp.net/api/Topics/${topicId}`)
+            .delete(`https://intervyouquestions.runasp.net/api/Topics/${topicId}`)
             .then((res) => {
                 console.log(res.data, "Deleted");
                 getTopics()
@@ -90,7 +90,7 @@ export default function MockInterviews() {
     //   delete category
     async function deleteCategory(catId) {
         return axios
-            .delete(`http://intervyouquestions.runasp.net/api/Categories/${catId}`)
+            .delete(`https://intervyouquestions.runasp.net/api/Categories/${catId}`)
             .then((res) => {
                 console.log(res.data);
                 getCategory()
@@ -103,7 +103,7 @@ export default function MockInterviews() {
     //   edit question
     async function editQuestion(qId) {
         return axios
-            .put(`http://intervyouquestions.runasp.net/api/Questions/${qId}`)
+            .put(`https://intervyouquestions.runasp.net/api/Questions/${qId}`)
             .then((res) => {
                 console.log(res);
             })

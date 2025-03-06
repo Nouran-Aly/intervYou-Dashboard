@@ -117,7 +117,7 @@ export default function CreateInterviews() {
   //   create category
   async function createCategory(values) {
     return axios
-      .post("http://intervyouquestions.runasp.net/api/Categories", values)
+      .post("https://intervyouquestions.runasp.net/api/Categories", values)
       .then((res) => {
         console.log(res.data);
         alert("Category Created")
@@ -131,7 +131,7 @@ export default function CreateInterviews() {
   //   get category
   async function getCategory() {
     return axios
-      .get("http://intervyouquestions.runasp.net/api/Categories")
+      .get("https://intervyouquestions.runasp.net/api/Categories")
       .then((res) => {
         console.log(res.data);
         setCategories(res.data);
@@ -144,7 +144,7 @@ export default function CreateInterviews() {
   //  create Topic
   async function createTopic(values) {
     return axios
-      .post("http://intervyouquestions.runasp.net/api/Topics", values)
+      .post("https://intervyouquestions.runasp.net/api/Topics", values)
       .then((res) => {
         console.log(res.data);
         alert("Topic Created")
@@ -158,7 +158,7 @@ export default function CreateInterviews() {
   //   get topics
   async function getTopics() {
     return axios
-      .get("http://intervyouquestions.runasp.net/api/Topics")
+      .get("https://intervyouquestions.runasp.net/api/Topics")
       .then((res) => {
         console.log(res.data, "TOPPPPIIICSS");
         setTopics(res.data);
@@ -172,7 +172,7 @@ export default function CreateInterviews() {
   async function createQuestion(values) {
     return axios
       .post(
-        "http://intervyouquestions.runasp.net/api/Questions/add-with-options",
+        "https://intervyouquestions.runasp.net/api/Questions/add-with-options",
         values
       )
       .then((res) => {
@@ -189,7 +189,7 @@ export default function CreateInterviews() {
   async function createEssayQuestion(values) {
     return axios
       .post(
-        "http://intervyouquestions.runasp.net/api/Questions/add-with-model-answers", values
+        "https://intervyouquestions.runasp.net/api/Questions/add-with-model-answers", values
       )
       .then((res) => {
         console.log(res.data);
