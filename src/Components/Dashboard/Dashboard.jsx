@@ -1,4 +1,8 @@
 import React from "react";
+import LineChart from "./LineChart";
+import BarChart from "./BarChart";
+import { Pie } from "react-chartjs-2";
+import PieChart from "./PieChart";
 
 export default function Dashboard() {
   return (
@@ -45,6 +49,34 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-    </div>
+      <div className="row my-5 row-gap-4">
+        <div className="col-md-6 ">
+          <div className="bg-white p-5 rounded-5">
+            <h4 className="mb-4">User Growth</h4>
+            <LineChart />
+          </div>
+        </div>
+        <div className="col-md-6">
+          <div className="bg-white p-5 rounded-5">
+            <h4 className="mb-4">User Activity</h4>
+            <LineChart />
+          </div>
+        </div>
+        <div className="col-md-6">
+          <div className="bg-white p-5 rounded-5">
+            <h4 className="mb-4">Number of mock interviews</h4>
+            <BarChart />
+          </div>
+        </div>
+        <div className="col-md-6">
+          <div className="bg-white p-5 rounded-5 " >
+            <h4 className="mb-4">Category Distribution</h4>
+            <div className="" style={{ width: "50%", margin: "auto" }}>
+              <PieChart />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div >
   );
 }

@@ -21,7 +21,7 @@ export default function CreateInterviews() {
       weight: Yup.string().required("Weight is required"),
     }),
     onSubmit: (values) => {
-      console.log("Form submitted:", values); // Debug statement
+      console.log("Form submitted:", values);
       createCategory(values);
     },
   });
@@ -53,6 +53,12 @@ export default function CreateInterviews() {
         { text: "", isCorrect: false },
         { text: "", isCorrect: false },
       ],
+      modelAnswers: [
+        {
+          text: "",
+          keyPoints: ""
+        }
+      ]
     },
     // validationSchema: Yup.object({
     //   type: Yup.string().required("Type is required"),
@@ -71,6 +77,40 @@ export default function CreateInterviews() {
     onSubmit: (values) => {
       console.log(values, "create question values");
       createQuestion(values);
+
+    },
+  });
+
+  let EssayQuestionFormik = useFormik({
+    initialValues: {
+      type: "",
+      text: "",
+      difficulty: "",
+      topicId: 0,
+      modelAnswers: [
+        {
+          text: "",
+          keyPoints: ""
+        }
+      ]
+    },
+    validationSchema: Yup.object({
+      type: Yup.string().required("Type is required"),
+      text: Yup.string().required("Question is required"),
+      difficulty: Yup.string().required("Difficulty is required"),
+      topicId: Yup.number().required("Topic is required"),
+      options: Yup.array()
+        .of(
+          Yup.object({
+            text: Yup.string().required(),
+          })
+        )
+        .min("at least two options are required")
+        .required("required"),
+    }),
+    onSubmit: (values) => {
+      console.log(values, "create question values");
+      createEssayQuestion(values);
     },
   });
 
@@ -80,6 +120,8 @@ export default function CreateInterviews() {
       .post("http://intervyouquestions.runasp.net/api/Categories", values)
       .then((res) => {
         console.log(res.data);
+        alert("Category Created")
+        getCategory()
       })
       .catch((err) => {
         console.log(err);
@@ -99,36 +141,14 @@ export default function CreateInterviews() {
       });
   }
 
-  //   delete category
-  async function deleteCategory(catId) {
-    return axios
-      .delete(`http://intervyouquestions.runasp.net/api/Categories/${catId}`)
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  //  edit category
-  async function editCategory(catId) {
-    return axios
-      .put(`http://intervyouquestions.runasp.net/api/Categories/${catId}`)
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  // create Topic
+  //  create Topic
   async function createTopic(values) {
     return axios
       .post("http://intervyouquestions.runasp.net/api/Topics", values)
       .then((res) => {
         console.log(res.data);
+        alert("Topic Created")
+        getTopics()
       })
       .catch((err) => {
         console.log(err);
@@ -148,18 +168,6 @@ export default function CreateInterviews() {
       });
   }
 
-  //   delete Topic
-  async function deleteTopic(topicId) {
-    return axios
-      .delete(`http://intervyouquestions.runasp.net/api/Topics/${topicId}`)
-      .then((res) => {
-        console.log(res.data, "Deleted");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
   //  create mcq Question
   async function createQuestion(values) {
     return axios
@@ -169,7 +177,23 @@ export default function CreateInterviews() {
       )
       .then((res) => {
         console.log(res.data);
+        alert("Question Created")
         console.log("question created");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  //  create essay Question
+  async function createEssayQuestion(values) {
+    return axios
+      .post(
+        "http://intervyouquestions.runasp.net/api/Questions/add-with-model-answers", values
+      )
+      .then((res) => {
+        console.log(res.data);
+        console.log("essay question created");
       })
       .catch((err) => {
         console.log(err);
@@ -189,6 +213,8 @@ export default function CreateInterviews() {
     console.log(index);
 
     setcorrectAnswer(index);
+    console.log(correctAnswer);
+
     questionFormik.setFieldValue(
       "options",
       questionFormik.values.options.map((option, i) => ({
@@ -202,11 +228,6 @@ export default function CreateInterviews() {
     getCategory();
     getTopics();
   }, []);
-
-  useEffect(() => {
-    getCategory();
-    getTopics();
-  }, [setCategories, setTopics]);
 
   return (
     <div>
@@ -344,80 +365,6 @@ export default function CreateInterviews() {
                       <p className="mb-0" key={cat.categoryId}>
                         {cat.name}
                       </p>
-                      <div className="d-flex flex-column flex-md-row align-items-center gap-3">
-                        <button className="btn btn-outline-warning">
-                          <i className="fa-regular fa-pen-to-square me-2"></i>
-                          Edit
-                        </button>
-                        <button
-                          className="btn btn-outline-danger"
-                          data-bs-toggle="modal"
-                          data-bs-target="#deleteCategory"
-                        >
-                          <i className="fa-solid fa-trash me-2"></i>
-                          Delete
-                        </button>
-
-                        {/* delete modal */}
-
-                        <div
-                          className="modal fade"
-                          id="deleteCategory"
-                          tabIndex={-1}
-                          aria-labelledby="deleteCategoryLabel"
-                          aria-hidden="true"
-                        >
-                          <div className="modal-dialog modal-dialog-centered">
-                            <div className="modal-content">
-                              <div className="modal-header border-0">
-                                <h1
-                                  className="modal-title fs-5 "
-                                  id="deleteCategoryLabel"
-                                >
-                                  Delete Category
-                                </h1>
-                                <button
-                                  type="button"
-                                  className="btn-close"
-                                  data-bs-dismiss="modal"
-                                  aria-label="Close"
-                                />
-                              </div>
-                              <div className="modal-body d-flex flex-column justify-content-center align-items-center gap-4 px-4">
-                                <img
-                                  src={warning}
-                                  className="w-25"
-                                  alt="warning icon"
-                                />
-                                <h4 className="text-center">Are you sure?</h4>
-                                <p className="text-muted text-center">
-                                  Are you sure you want to delete this category?
-                                  This process can't be undone.
-                                </p>
-                              </div>
-                              <div className="modal-footer border-0">
-                                <button
-                                  type="button"
-                                  className="btn btn-secondary"
-                                  data-bs-dismiss="modal"
-                                >
-                                  Cancel
-                                </button>
-                                <button
-                                  type="button"
-                                  className="btn btn-danger"
-                                  onClick={() => deleteCategory(cat.categoryId)}
-                                  data-bs-dismiss="modal"
-                                >
-                                  Delete
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* ## */}
-                      </div>
                     </div>
                   ))
                 ) : (
@@ -470,7 +417,7 @@ export default function CreateInterviews() {
                   <div className="modal-content">
                     <div className="modal-header border-0">
                       <h1 className="modal-title fs-5 " id="createtopicLabel">
-                        Create Category
+                        Create Topic
                       </h1>
                       <button
                         type="button"
@@ -498,7 +445,7 @@ export default function CreateInterviews() {
                             value={topicFormik.values.name}
                           />
                           {topicFormik.touched.name &&
-                          topicFormik.errors.name ? (
+                            topicFormik.errors.name ? (
                             <div
                               className="alert alert-danger mt-3"
                               role="alert"
@@ -528,7 +475,7 @@ export default function CreateInterviews() {
                             ))}
                           </select>
                           {topicFormik.touched.categoryId &&
-                          topicFormik.errors.categoryId ? (
+                            topicFormik.errors.categoryId ? (
                             <div
                               className="alert alert-danger mt-3"
                               role="alert"
@@ -566,77 +513,6 @@ export default function CreateInterviews() {
                       <p className="mb-0" key={topic.topicId}>
                         {topic.name}
                       </p>
-                      <div className="d-flex flex-column flex-md-row align-items-center gap-3">
-                        <button className="btn btn-outline-warning">
-                          <i className="fa-regular fa-pen-to-square me-2"></i>
-                          Edit
-                        </button>
-                        <button
-                          className="btn btn-outline-danger"
-                          data-bs-toggle="modal"
-                          data-bs-target="#deleteTopic"
-                        >
-                          <i className="fa-solid fa-trash me-2"></i>
-                          Delete
-                        </button>
-
-                        {/* delete modal */}
-                        <div
-                          className="modal fade"
-                          id="deleteTopic"
-                          tabIndex={-1}
-                          aria-labelledby="deleteTopicLabel"
-                          aria-hidden="true"
-                        >
-                          <div className="modal-dialog modal-dialog-centered">
-                            <div className="modal-content">
-                              <div className="modal-header border-0">
-                                <h1
-                                  className="modal-title fs-5 "
-                                  id="deleteTopicLabel"
-                                >
-                                  Delete Category
-                                </h1>
-                                <button
-                                  type="button"
-                                  className="btn-close"
-                                  data-bs-dismiss="modal"
-                                  aria-label="Close"
-                                />
-                              </div>
-                              <div className="modal-body d-flex flex-column justify-content-center align-items-center gap-4 px-4">
-                                <img
-                                  src={warning}
-                                  className="w-25"
-                                  alt="warning icon"
-                                />
-                                <h4 className="text-center">Are you sure?</h4>
-                                <p className="text-muted text-center">
-                                  Are you sure you want to delete this category?
-                                  This process can't be undone.
-                                </p>
-                              </div>
-                              <div className="modal-footer border-0">
-                                <button
-                                  type="button"
-                                  className="btn btn-secondary"
-                                  data-bs-dismiss="modal"
-                                >
-                                  Cancel
-                                </button>
-                                <button
-                                  type="button"
-                                  className="btn btn-danger"
-                                  onClick={() => deleteTopic(topic.topicId)}
-                                  data-bs-dismiss="modal"
-                                >
-                                  Delete
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   ))
                 ) : (
@@ -678,12 +554,12 @@ export default function CreateInterviews() {
                       className="form-select mt-3"
                       id="type"
                       name="type"
-                      value={questionFormik.values.type}
+                      value={questionFormik.values.type || EssayQuestionFormik.values.type}
                       onChange={(e) => {
                         handleAnswers(e);
-                        questionFormik.handleChange(e);
+                        questionFormik.handleChange(e) || EssayQuestionFormik.handleChange(e);
                       }}
-                      onBlur={questionFormik.handleBlur}
+                      onBlur={questionFormik.handleBlur || EssayQuestionFormik.handleBlur}
                     >
                       <option defaultValue>Select the type</option>
                       <option value="MCQ">Mcq</option>
@@ -691,7 +567,7 @@ export default function CreateInterviews() {
                       <option value="PROBLEM SOLVING">Problem Solving</option>
                     </select>
                     {questionFormik.touched.type &&
-                    questionFormik.errors.type ? (
+                      questionFormik.errors.type ? (
                       <div className="alert alert-danger mt-3" role="alert">
                         <i className="fa-solid fa-circle-exclamation me-2"></i>
                         {questionFormik.errors.type}
@@ -707,9 +583,9 @@ export default function CreateInterviews() {
                       className="form-select mt-3"
                       id="difficulty"
                       name="difficulty"
-                      value={questionFormik.values.difficulty}
-                      onChange={questionFormik.handleChange}
-                      onBlur={questionFormik.handleBlur}
+                      value={questionFormik.values.difficulty || EssayQuestionFormik.values.difficulty}
+                      onChange={questionFormik.handleChange || EssayQuestionFormik.handleChange}
+                      onBlur={questionFormik.handleBlur || EssayQuestionFormik.handleBlur}
                     >
                       <option value={0} defaultValue>
                         Select the difficulty
@@ -719,7 +595,7 @@ export default function CreateInterviews() {
                       <option value="Hard">Hard</option>
                     </select>
                     {questionFormik.touched.difficulty &&
-                    questionFormik.errors.difficulty ? (
+                      questionFormik.errors.difficulty ? (
                       <div className="alert alert-danger mt-3" role="alert">
                         <i className="fa-solid fa-circle-exclamation me-2"></i>
                         {questionFormik.errors.difficulty}
@@ -735,9 +611,9 @@ export default function CreateInterviews() {
                       className="form-select mt-3"
                       id="topic"
                       name="topicId"
-                      value={questionFormik.values.topicId}
-                      onChange={questionFormik.handleChange}
-                      onBlur={questionFormik.handleBlur}
+                      value={questionFormik.values.topicId || EssayQuestionFormik.values.topicId}
+                      onChange={questionFormik.handleChange || EssayQuestionFormik.handleChange}
+                      onBlur={questionFormik.handleBlur || EssayQuestionFormik.handleBlur}
                     >
                       <option value={0} defaultValue disabled>
                         Select a topic
@@ -749,7 +625,7 @@ export default function CreateInterviews() {
                       ))}
                     </select>
                     {questionFormik.touched.topicId &&
-                    questionFormik.errors.topicId ? (
+                      questionFormik.errors.topicId ? (
                       <div className="alert alert-danger mt-3" role="alert">
                         <i className="fa-solid fa-circle-exclamation me-2"></i>
                         {questionFormik.errors.topicId}
@@ -768,11 +644,11 @@ export default function CreateInterviews() {
                         rows={5}
                         name="text"
                         values={topicFormik.values.text}
-                        onChange={questionFormik.handleChange}
-                        onBlur={questionFormik.handleBlur}
+                        onChange={questionFormik.handleChange || EssayQuestionFormik.handleChange}
+                        onBlur={questionFormik.handleBlur || EssayQuestionFormik.handleBlur}
                       />
                       {questionFormik.touched.text &&
-                      questionFormik.errors.text ? (
+                        questionFormik.errors.text ? (
                         <div className="alert alert-danger mt-3" role="alert">
                           <i className="fa-solid fa-circle-exclamation me-2"></i>
                           {questionFormik.errors.text}
@@ -808,7 +684,7 @@ export default function CreateInterviews() {
                               onChange={questionFormik.handleChange}
                               onBlur={questionFormik.handleBlur}
                             />
-                            <div className="form-check">
+                            <div className="form-check mt-2">
                               <input
                                 type="radio"
                                 className="form-check-input"
@@ -823,36 +699,47 @@ export default function CreateInterviews() {
                           </div>
                         ))}
                       </div>
-                      {/* {questionFormik.touched.options &&
-                      questionFormik.errors.options ? (
+                      {questionFormik.touched.options &&
+                        questionFormik.errors.options ? (
                         <div className="alert alert-danger mt-3" role="alert">
                           <i className="fa-solid fa-circle-exclamation me-2"></i>
                           {questionFormik.errors.options[0]?.text ||
                             questionFormik.errors.options}
                         </div>
-                      ) : null} */}
+                      ) : null}
                     </>
                   ) : (
                     <>
-                      <h3>Question Answers</h3>
-                      <div className="mb-3">
-                        <label
-                          htmlFor="essay"
-                          className="form-label fw-medium mt-2"
-                        >
-                          Write The Answer ...
-                        </label>
-                        <textarea
-                          className="form-control"
-                          id="essay"
-                          rows={5}
-                        />
-                      </div>
-                      <div className="d-flex justify-content-end">
+                      {/* <h3>Question Answers</h3> */}
+                      {/* {questionFormik.values} */}
+                      {EssayQuestionFormik.values.modelAnswers.map((answer, index) => (
+                        <div className="mb-3" key={index}>
+                          <label
+                            htmlFor="essay"
+                            className="form-label fw-medium mt-2"
+                          >
+                            Write The Keypoints ...
+                          </label>
+                          <textarea
+                            className="form-control"
+                            id="essay"
+                            rows={5}
+                            value={answer.keyPoints}
+                            onChange={(e) => {
+                              const updatedAnswers = [...EssayQuestionFormik.values.modelAnswers];
+                              updatedAnswers[index].keyPoints = e.target.value;
+                              EssayQuestionFormik.setFieldValue("modelAnswers", updatedAnswers);
+                            }}
+                            onBlur={EssayQuestionFormik.handleBlur}
+                          />
+                        </div>
+                      ))}
+
+                      {/* <div className="d-flex justify-content-end">
                         <button className="btn btn-dark mt-3" type="submit">
                           Submit Answer
                         </button>
-                      </div>
+                      </div> */}
                     </>
                   )
                 ) : null}
@@ -867,6 +754,6 @@ export default function CreateInterviews() {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }

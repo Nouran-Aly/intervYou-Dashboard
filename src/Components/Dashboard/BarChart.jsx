@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Line } from "react-chartjs-2";
-import "chart.js/auto";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Bar } from "react-chartjs-2";
 
-export default function LineChart() {
-
+export default function BarChart() {
   const data = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
     datasets: [
@@ -21,31 +19,30 @@ export default function LineChart() {
       },
     ],
   };
-  // Chart options
-  const options = {
-    responsive: true,
+
+  const barChartOptions = {
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 100,
+        ticks: {
+          stepSize: 20,
+        },
+      },
+    },
     plugins: {
       legend: {
         display: false,
       },
     },
-    scales: {
-      y: {
-        grid: {
-          display: false
-        },
-        beginAtZero: true,
-        max: 100,
-        ticks: {
-          stepSize: 10,
-        },
-      },
-    },
+    responsive: true,
+    // maintainAspectRatio: false,
+    barThickness: 30,
   };
 
   return (
-    <div>
-      <Line data={data} options={options} />
+    <div className="">
+      <Bar data={data} options={barChartOptions} />
     </div>
   );
 }

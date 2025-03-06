@@ -10,6 +10,9 @@ import Layout from "./Components/Layout/Layout";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import Students from "./Components/Students/Students";
 import CreateInterviews from "./Components/CreateInterviews/CreateInterviews";
+import MockInterviews from "./Components/MockInterviews/MockInterviews";
+import McqQuestion from "./Components/CreateInterviews/McqQuestion";
+import EssayQuestion from "./Components/CreateInterviews/EssayQuestion";
 
 function App() {
   let routes = createBrowserRouter([
@@ -28,7 +31,13 @@ function App() {
       children: [
         { path: "", element: <Dashboard /> },
         { path: "students", element: <Students /> },
-        { path: "create-interview", element: <CreateInterviews /> },
+        {
+          path: "create-interview", element: <CreateInterviews />, children: [
+            { path: "mcqQuestion", element: <McqQuestion /> },
+            { path: "essayQuestion", element: <EssayQuestion /> },  
+          ]
+        },
+        { path: "mock-interview", element: <MockInterviews /> },
       ],
     },
   ]);

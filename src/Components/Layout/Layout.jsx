@@ -18,14 +18,15 @@ export default function Layout() {
     <div
       style={{
         display: "flex",
-        height: "200vh",
+        height: "100%",
+        minHeight: "100vh",
         overflow: "scroll initial",
       }}
     >
       <CDBSidebar
         textColor="#ffffff"
         backgroundColor="#152a4c"
-        // className="h-100"
+      // className="h-100"
       >
         <CDBSidebarHeader prefix={<i className="fa-solid fa-bars"></i>}>
           <Link
@@ -60,7 +61,7 @@ export default function Layout() {
             </NavLink>
 
             {/* Mock interviews */}
-            <NavLink className={styles.navLink}>
+            <NavLink to="mock-interview" className={styles.navLink}>
               <CDBSidebarMenuItem
                 icon="fa-solid fa-clipboard-question"
                 className={styles.navbarItem}
