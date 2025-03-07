@@ -34,10 +34,14 @@ function App() {
         {
           path: "create-interview", element: <CreateInterviews />, children: [
             { path: "mcqQuestion", element: <McqQuestion /> },
-            { path: "essayQuestion", element: <EssayQuestion /> },  
+            { path: "essayQuestion", element: <EssayQuestion /> },
           ]
         },
         { path: "mock-interview", element: <MockInterviews /> },
+        { path: "mcqQuestion", element: <McqQuestion /> },
+        { path: "essayQuestion", element: <EssayQuestion /> },
+
+
       ],
     },
   ]);

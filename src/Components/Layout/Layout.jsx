@@ -10,7 +10,7 @@ import {
   // CDBSidebarSubMenu,
 } from "cdbreact";
 import { Link, NavLink, Outlet } from "react-router-dom";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/no-bg-logo.png";
 import styles from "./Layout.module.css";
 
 export default function Layout() {
@@ -43,9 +43,9 @@ export default function Layout() {
             {/* main */}
             <NavLink className={styles.navLink}>
               <CDBSidebarMenuItem
-                icon="fa-regular fa-clipboard"
                 className={styles.navbarItem}
               >
+                <i className="fa-solid fa-chart-line ms-1 me-3"></i>
                 Dashboard
               </CDBSidebarMenuItem>
             </NavLink>
@@ -53,9 +53,11 @@ export default function Layout() {
             {/* students */}
             <NavLink className={styles.navLink} to="/students">
               <CDBSidebarMenuItem
-                icon="fa-solid fa-users"
+                // icon="fa-solid fa-users"
                 className={styles.navbarItem}
               >
+                <i className="fa-solid fa-user-plus ms-1 me-3"></i>
+
                 Students
               </CDBSidebarMenuItem>
             </NavLink>
@@ -63,41 +65,93 @@ export default function Layout() {
             {/* Mock interviews */}
             <NavLink to="mock-interview" className={styles.navLink}>
               <CDBSidebarMenuItem
-                icon="fa-solid fa-clipboard-question"
                 className={styles.navbarItem}
               >
+                <i className="fa-solid fa-scroll ms-1 me-3"></i>
                 Mock Interviews
               </CDBSidebarMenuItem>
             </NavLink>
 
             {/* Create Interviews */}
-            <NavLink className={styles.navLink} to="/create-interview">
-              <CDBSidebarMenuItem
-                icon="fa-solid fa-circle-plus"
-                className={styles.navbarItem}
-              >
-                Create Interviews
-              </CDBSidebarMenuItem>
-            </NavLink>
+            <div
+              className="accordion accordion-flush bg-transparent"
+              id="accordionFlushExample"
+            >
+              <div className="accordion-item bg-transparent">
+                <div className="accordion-header w-100" id="flush-headingOne">
+                  <div
+                    className="collapsed w-100 text-white"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#flush-collapseOne"
+                    aria-expanded="false"
+                    aria-controls="flush-collapseOne"
+                  >
+                    <NavLink to="mock-interview" className={`${styles.navLink} bg-warning`}>
+                      {/* <CDBSidebarMenu className="nav-item p-0 bg-secondary" > */}
+                      <CDBSidebarMenuItem
+                        // className="flex text-white bg-danger "
+                        className={styles.navbarItem}
+                      >
+                        <div className="d-flex align-items-center bg-">
+                          <i className="fa-solid fa-plus ms-1 me-3"></i>
+                          <div className="d-flex flex-row justify-content-between align-items-center w-100">
+                            <p className="mb-0">Create Interview</p>
+                            <i className="fa-solid fa-chevron-down text-white pe-4 nav-link"></i>
+                          </div>
+                        </div>
+                      </CDBSidebarMenuItem>
+                      {/* </CDBSidebarMenu> */}
+                    </NavLink>
+                  </div>
+                </div>
+                <div
+                  id="flush-collapseOne"
+                  className="accordion-collapse collapse"
+                  aria-labelledby="flush-headingOne"
+                  data-bs-parent="#accordionFlushExample"
+                >
+                  <div className="accordion-body p-0">
+                    <NavLink to="/mcqQuestion" className={styles.navLink}>
+                      <CDBSidebarMenuItem
+                        className={styles.navbarItem}
+                      >
+                        <i className="fa-solid fa-chevron-right me-3"></i>
+                        Create MCQ Question
+                      </CDBSidebarMenuItem>
+                    </NavLink>
+                    <NavLink to="/essayQuestion" className={styles.navLink}>
+                      <CDBSidebarMenuItem
+                        className={styles.navbarItem}
+                      >
+                        <i className="fa-solid fa-chevron-right me-3"></i>
+                        Create Essay Question
+                      </CDBSidebarMenuItem>
+                    </NavLink>
+                  </div>
+                </div>
+              </div>
+            </div>
           </CDBSidebarMenu>
         </CDBSidebarContent>
-      </CDBSidebar>
+      </CDBSidebar >
 
       {/* /navbar */}
-      <div className={`${styles.pageBody} w-100 bg`}>
-        <div className="container d-flex flex-column">
-          <nav className="navbar w-100 top-0 align-self-start mb-5">
+      < div className={`${styles.pageBody} w-100 bg`
+      }>
+        <div className="container d-flex flex-column py-5">
+          {/* <nav className="navbar w-100 top-0 align-self-start mb-5">
             <div className="container-fluid">
               <a className="navbar-brand fw-bold">Dashboard</a>
               <div className="navbar-content d-flex align-items-center gap-3">
                 content
               </div>
             </div>
-          </nav>
+          </nav> */}
 
           <Outlet />
         </div>
       </div>
-    </div>
+    </div >
   );
 }

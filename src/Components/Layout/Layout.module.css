@@ -1,5 +1,5 @@
 .logo {
-    width: 200px;
+    width: 100px;
 }
 
 /* AUTH LAYOUT */
@@ -22,6 +22,9 @@
 }
 
 /* LAYOUT */
+.navbarItem {
+    color: white;
+}
 
 .navbarItem:hover {
     background-color: var(--dark-blue);

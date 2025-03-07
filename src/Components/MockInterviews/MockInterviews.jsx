@@ -113,7 +113,7 @@ export default function MockInterviews() {
     }
 
     return (
-        <div className='container'>
+        <div className='container pb-'>
             {/* Questions */}
             <div className='mb-5'>
                 <h3 className='text-center text-white bg-dark-blue rounded-3 py-2'>Questions</h3>

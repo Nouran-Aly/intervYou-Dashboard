@@ -4,12 +4,11 @@ import React, { useEffect, useState } from "react";
 import styles from "./Styles.module.css";
 import warning from "../../assets/warning.png";
 import * as Yup from "yup";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 
 export default function CreateInterviews() {
   const [categories, setCategories] = useState([]);
   const [topics, setTopics] = useState([]);
-  const [answerOption, setAnswerOption] = useState();
-  const [correctAnswer, setcorrectAnswer] = useState(0);
 
   let formik = useFormik({
     initialValues: {
@@ -38,79 +37,6 @@ export default function CreateInterviews() {
     onSubmit: (values) => {
       console.log(values);
       createTopic(values);
-    },
-  });
-
-  let questionFormik = useFormik({
-    initialValues: {
-      type: "",
-      text: "",
-      difficulty: "",
-      topicId: 0,
-      options: [
-        { text: "", isCorrect: false },
-        { text: "", isCorrect: false },
-        { text: "", isCorrect: false },
-        { text: "", isCorrect: false },
-      ],
-      modelAnswers: [
-        {
-          text: "",
-          keyPoints: ""
-        }
-      ]
-    },
-    // validationSchema: Yup.object({
-    //   type: Yup.string().required("Type is required"),
-    //   text: Yup.string().required("Question is required"),
-    //   difficulty: Yup.string().required("Difficulty is required"),
-    //   topicId: Yup.number().required("Topic is required"),
-    //   options: Yup.array()
-    //     .of(
-    //       Yup.object({
-    //         text: Yup.string().required(),
-    //       })
-    //     )
-    //     .min("at least two options are required")
-    //     .required("required"),
-    // }),
-    onSubmit: (values) => {
-      console.log(values, "create question values");
-      createQuestion(values);
-
-    },
-  });
-
-  let EssayQuestionFormik = useFormik({
-    initialValues: {
-      type: "",
-      text: "",
-      difficulty: "",
-      topicId: 0,
-      modelAnswers: [
-        {
-          text: "",
-          keyPoints: ""
-        }
-      ]
-    },
-    validationSchema: Yup.object({
-      type: Yup.string().required("Type is required"),
-      text: Yup.string().required("Question is required"),
-      difficulty: Yup.string().required("Difficulty is required"),
-      topicId: Yup.number().required("Topic is required"),
-      options: Yup.array()
-        .of(
-          Yup.object({
-            text: Yup.string().required(),
-          })
-        )
-        .min("at least two options are required")
-        .required("required"),
-    }),
-    onSubmit: (values) => {
-      console.log(values, "create question values");
-      createEssayQuestion(values);
     },
   });
 
@@ -168,62 +94,6 @@ export default function CreateInterviews() {
       });
   }
 
-  //  create mcq Question
-  async function createQuestion(values) {
-    return axios
-      .post(
-        "https://intervyouquestions.runasp.net/api/Questions/add-with-options",
-        values
-      )
-      .then((res) => {
-        console.log(res.data);
-        alert("Question Created")
-        console.log("question created");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  //  create essay Question
-  async function createEssayQuestion(values) {
-    return axios
-      .post(
-        "https://intervyouquestions.runasp.net/api/Questions/add-with-model-answers", values
-      )
-      .then((res) => {
-        console.log(res.data);
-        console.log("essay question created");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  const handleAnswers = (e) => {
-    console.log(e.target.value, "CLICKED");
-    if (e.target.value === "MCQ") {
-      setAnswerOption("MCQ");
-    } else {
-      setAnswerOption("Essay");
-    }
-  };
-
-  const handleCorrectChoice = (index) => {
-    console.log(index);
-
-    setcorrectAnswer(index);
-    console.log(correctAnswer);
-
-    questionFormik.setFieldValue(
-      "options",
-      questionFormik.values.options.map((option, i) => ({
-        ...option,
-        isCorrect: i === index,
-      }))
-    );
-  };
-
   useEffect(() => {
     getCategory();
     getTopics();
@@ -248,7 +118,7 @@ export default function CreateInterviews() {
           </h2>
           <div
             id="collapseOne"
-            className="accordion-collapse collapse "
+            className="accordion-collapse collapse show"
             data-bs-parent="#accordionExample"
           >
             <div className="accordion-body">
@@ -379,7 +249,7 @@ export default function CreateInterviews() {
         <div className="accordion-item">
           <h2 className="accordion-header">
             <button
-              className="accordion-button collapsed"
+              className="accordion-button collapsed show"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#collapseTwo"
@@ -519,237 +389,6 @@ export default function CreateInterviews() {
                   <p className="text-center">There is no topics yet</p>
                 )}
               </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Question */}
-        <div className="accordion-item">
-          <h2 className="accordion-header">
-            <button
-              className="accordion-button collapsed"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#collapseThree"
-              aria-expanded="false"
-              aria-controls="collapseThree"
-            >
-              Questions
-            </button>
-          </h2>
-          <div
-            id="collapseThree"
-            className="accordion-collapse collapse show"
-            data-bs-parent="#accordionExample"
-          >
-            <div className="accordion-body">
-              <form onSubmit={questionFormik.handleSubmit}>
-                <div className="row row-gap-4">
-                  {/* choose type */}
-                  <div className="col-6 col-md-4">
-                    <label htmlFor="type" className="fw-medium">
-                      Question Type :
-                    </label>
-                    <select
-                      className="form-select mt-3"
-                      id="type"
-                      name="type"
-                      value={questionFormik.values.type || EssayQuestionFormik.values.type}
-                      onChange={(e) => {
-                        handleAnswers(e);
-                        questionFormik.handleChange(e) || EssayQuestionFormik.handleChange(e);
-                      }}
-                      onBlur={questionFormik.handleBlur || EssayQuestionFormik.handleBlur}
-                    >
-                      <option defaultValue>Select the type</option>
-                      <option value="MCQ">Mcq</option>
-                      <option value="ESSAY">Essay</option>
-                      <option value="PROBLEM SOLVING">Problem Solving</option>
-                    </select>
-                    {questionFormik.touched.type &&
-                      questionFormik.errors.type ? (
-                      <div className="alert alert-danger mt-3" role="alert">
-                        <i className="fa-solid fa-circle-exclamation me-2"></i>
-                        {questionFormik.errors.type}
-                      </div>
-                    ) : null}
-                  </div>
-                  {/* choose difficulty */}
-                  <div className="col-6 col-md-4">
-                    <label htmlFor="difficulty" className="fw-medium">
-                      Question Difficulty :
-                    </label>
-                    <select
-                      className="form-select mt-3"
-                      id="difficulty"
-                      name="difficulty"
-                      value={questionFormik.values.difficulty || EssayQuestionFormik.values.difficulty}
-                      onChange={questionFormik.handleChange || EssayQuestionFormik.handleChange}
-                      onBlur={questionFormik.handleBlur || EssayQuestionFormik.handleBlur}
-                    >
-                      <option value={0} defaultValue>
-                        Select the difficulty
-                      </option>
-                      <option value="Easy">Easy</option>
-                      <option value="Intermediate">Intermediate</option>
-                      <option value="Hard">Hard</option>
-                    </select>
-                    {questionFormik.touched.difficulty &&
-                      questionFormik.errors.difficulty ? (
-                      <div className="alert alert-danger mt-3" role="alert">
-                        <i className="fa-solid fa-circle-exclamation me-2"></i>
-                        {questionFormik.errors.difficulty}
-                      </div>
-                    ) : null}
-                  </div>
-                  {/* choose topic */}
-                  <div className="col-6 col-md-4">
-                    <label htmlFor="topic" className="fw-medium">
-                      Question Topic :
-                    </label>
-                    <select
-                      className="form-select mt-3"
-                      id="topic"
-                      name="topicId"
-                      value={questionFormik.values.topicId || EssayQuestionFormik.values.topicId}
-                      onChange={questionFormik.handleChange || EssayQuestionFormik.handleChange}
-                      onBlur={questionFormik.handleBlur || EssayQuestionFormik.handleBlur}
-                    >
-                      <option value={0} defaultValue disabled>
-                        Select a topic
-                      </option>
-                      {topics?.map((topic) => (
-                        <option key={topic.name} value={topic.topicId}>
-                          {topic.name}
-                        </option>
-                      ))}
-                    </select>
-                    {questionFormik.touched.topicId &&
-                      questionFormik.errors.topicId ? (
-                      <div className="alert alert-danger mt-3" role="alert">
-                        <i className="fa-solid fa-circle-exclamation me-2"></i>
-                        {questionFormik.errors.topicId}
-                      </div>
-                    ) : null}
-                  </div>
-                  {/* question */}
-                  <div className="col-12">
-                    <div className="mb-3">
-                      <label htmlFor="text" className="form-label fw-medium">
-                        Write The Question ...
-                      </label>
-                      <textarea
-                        className="form-control"
-                        id="text"
-                        rows={5}
-                        name="text"
-                        values={topicFormik.values.text}
-                        onChange={questionFormik.handleChange || EssayQuestionFormik.handleChange}
-                        onBlur={questionFormik.handleBlur || EssayQuestionFormik.handleBlur}
-                      />
-                      {questionFormik.touched.text &&
-                        questionFormik.errors.text ? (
-                        <div className="alert alert-danger mt-3" role="alert">
-                          <i className="fa-solid fa-circle-exclamation me-2"></i>
-                          {questionFormik.errors.text}
-                        </div>
-                      ) : null}
-                    </div>
-                  </div>
-                </div>
-                {answerOption ? (
-                  answerOption == "MCQ" ? (
-                    <>
-                      {/* // MCQ */}
-                      <h3>Question Answers</h3>
-                      <p className="text-muted">
-                        Atleast two answers are required
-                      </p>
-                      <div className="row row-gap-4 mb-3">
-                        {questionFormik.values.options.map((option, index) => (
-                          <div className="col-md-6" key={index}>
-                            <label
-                              htmlFor={`choice${index + 1}`}
-                              className="form-label"
-                            >
-                              Choice {index + 1}
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id={`choice${index + 1}`}
-                              placeholder={`Write choice ${index + 1}`}
-                              name={`options[${index}].text`} // Dynamically set name
-                              value={option.text}
-                              onChange={questionFormik.handleChange}
-                              onBlur={questionFormik.handleBlur}
-                            />
-                            <div className="form-check mt-2">
-                              <input
-                                type="radio"
-                                className="form-check-input"
-                                name="correctChoice"
-                                checked={correctAnswer === index}
-                                onChange={() => handleCorrectChoice(index)} // Set the correct choice dynamically
-                              />
-                              <label className="form-check-label">
-                                Correct
-                              </label>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                      {questionFormik.touched.options &&
-                        questionFormik.errors.options ? (
-                        <div className="alert alert-danger mt-3" role="alert">
-                          <i className="fa-solid fa-circle-exclamation me-2"></i>
-                          {questionFormik.errors.options[0]?.text ||
-                            questionFormik.errors.options}
-                        </div>
-                      ) : null}
-                    </>
-                  ) : (
-                    <>
-                      {/* <h3>Question Answers</h3> */}
-                      {/* {questionFormik.values} */}
-                      {EssayQuestionFormik.values.modelAnswers.map((answer, index) => (
-                        <div className="mb-3" key={index}>
-                          <label
-                            htmlFor="essay"
-                            className="form-label fw-medium mt-2"
-                          >
-                            Write The Keypoints ...
-                          </label>
-                          <textarea
-                            className="form-control"
-                            id="essay"
-                            rows={5}
-                            value={answer.keyPoints}
-                            onChange={(e) => {
-                              const updatedAnswers = [...EssayQuestionFormik.values.modelAnswers];
-                              updatedAnswers[index].keyPoints = e.target.value;
-                              EssayQuestionFormik.setFieldValue("modelAnswers", updatedAnswers);
-                            }}
-                            onBlur={EssayQuestionFormik.handleBlur}
-                          />
-                        </div>
-                      ))}
-
-                      {/* <div className="d-flex justify-content-end">
-                        <button className="btn btn-dark mt-3" type="submit">
-                          Submit Answer
-                        </button>
-                      </div> */}
-                    </>
-                  )
-                ) : null}
-
-                <div className="d-flex justify-content-end">
-                  <button className="btn btn-dark mt-3" type="submit">
-                    Submit Question
-                  </button>
-                </div>
-              </form>
             </div>
           </div>
         </div>
