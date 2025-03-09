@@ -124,9 +124,9 @@ export default function EssayQuestion() {
                             <option value="" >
                                 Select the difficulty
                             </option>
-                            <option value="Easy">Easy</option>
-                            <option value="Intermediate">Intermediate</option>
-                            <option value="Hard">Hard</option>
+                            <option value="easy">Easy</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="hard">Hard</option>
                         </select>
                         {formik.touched.difficulty &&
                             formik.errors.difficulty ? (

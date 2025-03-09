@@ -116,26 +116,22 @@ export default function MockInterviews() {
         <div className='container pb-'>
             {/* Questions */}
             <div className='mb-5'>
-                <h3 className='text-center text-white bg-dark-blue rounded-3 py-2'>Questions</h3>
+                <h3 className='text-center text-white bg-dark-blue rounded-3 py-2 mb-5'>Questions</h3>
                 {questions?.map(question => (
-                    <div key={question.questionId} className='d-flex flex-column gap-2 border-bottom mt-5'>
+                    <div key={question.questionId} className='d-flex flex-column justify-content-start gap-2 border-bottom pb-3 my-5'>
                         <form onSubmit={questionFormik.handleSubmit}>
                             <div className="row row-gap-3">
                                 <p className='col-12 col-md-6 col-lg-3 fw-medium fs-6'>Difficulty :
-                                    <span className='ms-2 bg-dark-blue text-white fw-medium px-3 py-2 rounded-3' >{question.difficulty}</span>
+                                    <span className='ms-2 bg-dark-blue text-white fw-medium px-3 py-2 rounded-3 text-capitalize' >{question.difficulty}</span>
                                 </p>
                                 <p className='col-12 col-md-6 col-lg-3 fw-medium fs-6'>Type :
-                                    <span className='ms-2 bg-mint-green text-dark fw-medium px-3 py-2 rounded-3'>  {question.type}</span>
+                                    <span className='ms-2 bg-mint-green text-dark fw-medium px-3 py-2 rounded-3 text-capitalize'>  {question.type}</span>
                                 </p>
                                 <p className='col-12 col-md-6 col-lg-3 fw-medium fs-6'>Topic :
-                                    <span className='ms-2 bg-navy-blue text-white fw-medium px-3 py-2 rounded-3'>  {question.topic?.name}</span>
+                                    <span className='ms-2 bg-navy-blue text-white fw-medium px-3 py-2 rounded-3'> {question.topicId}</span>
                                 </p>
-                            </div>
-                            <div className="d-flex justify-content-between align-items-center mb-2">
-                                <p>{question.text}</p>
-                                <div className="d-flex flex-column gap-2">
-
-                                    <button className='btn btn-outline-danger' data-bs-toggle="modal"
+                                <p className='col-12 col-md-6 col-lg-3 fw-medium fs-6'>
+                                    <button className='btn btn-outline-danger w-100' data-bs-toggle="modal"
                                         data-bs-target="#deleteQuestion">Delete</button>
                                     {/* delete modal */}
                                     <div
@@ -193,7 +189,34 @@ export default function MockInterviews() {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </p>
+                            </div>
+                            {/* QUESTION TEXT */}
+                            <div className="d-flex flex-column mb-2">
+                                <h5 className='mb-3'>Question Text</h5>
+                                <p>{question.text}</p>
+                            </div>
+                            {/* QUESTION ANSWER */}
+                            <div className="d-flex flex-column">
+                                <h5 className='mb-3'>Question Answers</h5>
+                                {question.type == "mcq" ?
+                                    question.questionOptions?.map((option, index) => (
+                                        <div key={option.optionId} className='d-flex gap-4'>
+                                            <p> Answer{index + 1}:<span className='ms-4'>{option.text}</span> </p>
+                                            {option.isCorrect == true ? (
+                                                <p className='bg-success text-white px-3 py-1 rounded-2'> Correct</p>
+                                            ) :
+                                                <p className='bg-danger text-white px-3 py-1 rounded-2'> Wrong</p>
+                                            }
+                                        </div>
+                                    )) :
+                                    question.modelAnswers?.map((answer, index) => (
+                                        <div key={answer.modelAnswerId} className='d-flex gap-4'>
+                                            <p> Key Points:<span className='ms-2'>{answer.keyPoints}</span> </p>
+                                        </div>
+                                    ))
+                                }
+
                             </div>
                         </form>
 
