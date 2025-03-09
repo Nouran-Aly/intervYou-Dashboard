@@ -43,9 +43,10 @@ export default function Layout() {
             {/* main */}
             <NavLink className={styles.navLink}>
               <CDBSidebarMenuItem
+                icon="fa-solid fa-chart-line"
                 className={styles.navbarItem}
               >
-                <i className="fa-solid fa-chart-line ms-1 me-3"></i>
+                {/* <i className="fa-solid fa-chart-line ms-1 me-3"></i> */}
                 Dashboard
               </CDBSidebarMenuItem>
             </NavLink>
@@ -53,10 +54,10 @@ export default function Layout() {
             {/* students */}
             <NavLink className={styles.navLink} to="/students">
               <CDBSidebarMenuItem
-                // icon="fa-solid fa-users"
+                icon="fa-solid fa-user-plus"
                 className={styles.navbarItem}
               >
-                <i className="fa-solid fa-user-plus ms-1 me-3"></i>
+                {/* <i className="fa-solid fa-user-plus ms-1 me-3"></i> */}
 
                 Students
               </CDBSidebarMenuItem>
@@ -65,9 +66,10 @@ export default function Layout() {
             {/* Mock interviews */}
             <NavLink to="mock-interview" className={styles.navLink}>
               <CDBSidebarMenuItem
+                icon="fa-solid fa-scroll"
                 className={styles.navbarItem}
               >
-                <i className="fa-solid fa-scroll ms-1 me-3"></i>
+                {/* <i className="fa-solid fa-scroll ms-1 me-3"></i> */}
                 Mock Interviews
               </CDBSidebarMenuItem>
             </NavLink>
@@ -87,21 +89,18 @@ export default function Layout() {
                     aria-expanded="false"
                     aria-controls="flush-collapseOne"
                   >
-                    <NavLink to="mock-interview" className={`${styles.navLink} bg-warning`}>
-                      {/* <CDBSidebarMenu className="nav-item p-0 bg-secondary" > */}
+                    <NavLink to="create-interview" className={`${styles.navLink} bg-warning`}>
                       <CDBSidebarMenuItem
-                        // className="flex text-white bg-danger "
+                        icon="fa-solid fa-plus"
                         className={styles.navbarItem}
                       >
                         <div className="d-flex align-items-center bg-">
-                          <i className="fa-solid fa-plus ms-1 me-3"></i>
                           <div className="d-flex flex-row justify-content-between align-items-center w-100">
                             <p className="mb-0">Create Interview</p>
                             <i className="fa-solid fa-chevron-down text-white pe-4 nav-link"></i>
                           </div>
                         </div>
                       </CDBSidebarMenuItem>
-                      {/* </CDBSidebarMenu> */}
                     </NavLink>
                   </div>
                 </div>
@@ -114,17 +113,17 @@ export default function Layout() {
                   <div className="accordion-body p-0">
                     <NavLink to="/mcqQuestion" className={styles.navLink}>
                       <CDBSidebarMenuItem
+                        icon="fa-solid fa-chevron-right"
                         className={styles.navbarItem}
                       >
-                        <i className="fa-solid fa-chevron-right me-3"></i>
                         Create MCQ Question
                       </CDBSidebarMenuItem>
                     </NavLink>
                     <NavLink to="/essayQuestion" className={styles.navLink}>
                       <CDBSidebarMenuItem
+                        icon="fa-solid fa-chevron-right"
                         className={styles.navbarItem}
                       >
-                        <i className="fa-solid fa-chevron-right me-3"></i>
                         Create Essay Question
                       </CDBSidebarMenuItem>
                     </NavLink>

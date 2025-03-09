@@ -9,7 +9,7 @@ export default function EssayQuestion() {
 
     const formik = useFormik({
         initialValues: {
-            type: "",
+            type: "essay",
             text: "",
             difficulty: "",
             topicId: null,
@@ -21,15 +21,20 @@ export default function EssayQuestion() {
             ]
         },
         validationSchema: Yup.object({
-            type: Yup.string().required("Type is required"),
             text: Yup.string().required("Question is required"),
             difficulty: Yup.string().required("Difficulty is required"),
             topicId: Yup.number().required("Topic is required"),
-
+            modelAnswers: Yup.array()
+                .of(
+                    Yup.object({
+                        keyPoints: Yup.string().required("Atleast one key point is required"),
+                    })
+                )
+                .required("Atleast one key point is required"),
         }),
         onSubmit: (values) => {
             console.log(values, "ESAAAAYYYY");
-            createEssayQuestion()
+            createEssayQuestion(values)
         }
     })
 
@@ -41,6 +46,7 @@ export default function EssayQuestion() {
             )
             .then((res) => {
                 console.log(res.data);
+                alert("Question Created")
                 console.log("essay question created");
             })
             .catch((err) => {
@@ -79,7 +85,7 @@ export default function EssayQuestion() {
     };
     return (
         <div className='px-5'>
-            <h1>Esaay question area</h1>
+            <h1 className='mb-4'>Essay Question Area</h1>
             <form onSubmit={formik.handleSubmit}>
                 <div className="row">
                     {/* choose type */}
@@ -91,14 +97,8 @@ export default function EssayQuestion() {
                             className="form-select mt-3"
                             id="type"
                             name="type"
-                            value={formik.values.type}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
                         >
-                            <option defaultValue>Select the type</option>
-                            <option value="MCQ">Mcq</option>
-                            <option value="ESSAY">Essay</option>
-                            <option value="PROBLEM SOLVING">Problem Solving</option>
+                            <option value="" selected> Essay</option>
                         </select>
                         {formik.touched.type &&
                             formik.errors.type ? (
@@ -191,7 +191,6 @@ export default function EssayQuestion() {
                         </div>
                     </div>
                     {/* answers */}
-                    <h3>Question Answers</h3>
                     {formik.values.modelAnswers.map((answer, index) => (
                         <div className="mb-3" key={index}>
                             <label
@@ -203,6 +202,7 @@ export default function EssayQuestion() {
                             <textarea
                                 className="form-control"
                                 id="essay"
+                                name="keyPoints"
                                 rows={5}
                                 value={answer.keyPoints}
                                 onChange={(e) => {
@@ -212,20 +212,16 @@ export default function EssayQuestion() {
                                 }}
                                 onBlur={formik.handleBlur}
                             />
+
+                            {/* <div className="alert alert-danger mt-3" role="alert">
+                                <i className="fa-solid fa-circle-exclamation me-2"></i>
+                                {formik.errors.keyPoints}
+                            </div> */}
                         </div>
                     ))}
-
-                    {formik.touched.options &&
-                        formik.errors.options ? (
-                        <div className="alert alert-danger mt-3" role="alert">
-                            <i className="fa-solid fa-circle-exclamation me-2"></i>
-                            {formik.errors.options[0]?.text ||
-                                formik.errors.options}
-                        </div>
-                    ) : null}
                 </div >
                 <div className="d-flex justify-content-end">
-                    < button className="btn btn-dark mt-3" type="submit" >
+                    <button className="btn btn-dark mt-3" type="submit" >
                         Submit Question
                     </button>
                 </div>

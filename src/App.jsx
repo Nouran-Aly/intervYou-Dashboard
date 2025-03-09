@@ -32,10 +32,7 @@ function App() {
         { path: "", element: <Dashboard /> },
         { path: "students", element: <Students /> },
         {
-          path: "create-interview", element: <CreateInterviews />, children: [
-            { path: "mcqQuestion", element: <McqQuestion /> },
-            { path: "essayQuestion", element: <EssayQuestion /> },
-          ]
+          path: "create-interview", element: <CreateInterviews />
         },
         { path: "mock-interview", element: <MockInterviews /> },
         { path: "mcqQuestion", element: <McqQuestion /> },

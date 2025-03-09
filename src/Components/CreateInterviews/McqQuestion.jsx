@@ -10,7 +10,7 @@ export default function McqQuestion() {
 
     const formik = useFormik({
         initialValues: {
-            type: "",
+            type: "mcq",
             text: "",
             difficulty: "",
             topicId: null,
@@ -22,7 +22,6 @@ export default function McqQuestion() {
             ],
         },
         validationSchema: Yup.object({
-            type: Yup.string().required("Type is required"),
             text: Yup.string().required("Question is required"),
             difficulty: Yup.string().required("Difficulty is required"),
             topicId: Yup.string().required("Topic is required"),
@@ -37,7 +36,7 @@ export default function McqQuestion() {
         }),
         onSubmit: (values) => {
             console.log(values, "MCQ");
-            createQuestion()
+            createQuestion(values)
         }
     })
 
@@ -45,8 +44,7 @@ export default function McqQuestion() {
     async function createQuestion(values) {
         return axios
             .post(
-                "https://intervyouquestions.runasp.net/api/Questions/add-with-options",
-                values
+                "https://intervyouquestions.runasp.net/api/Questions/add-with-options", values
             )
             .then((res) => {
                 console.log(res.data);
@@ -54,7 +52,7 @@ export default function McqQuestion() {
                 console.log("question created");
             })
             .catch((err) => {
-                console.log(err);
+                console.log(err.response.data);
             });
     }
 
@@ -90,7 +88,7 @@ export default function McqQuestion() {
 
     return (
         <div className='px-5'>
-            <h1>Mcq question area</h1>
+            <h1 className='mb-4'>Mcq Question Area</h1>
             <form onSubmit={formik.handleSubmit}>
                 <div className="row">
                     {/* choose type */}
@@ -102,22 +100,9 @@ export default function McqQuestion() {
                             className="form-select mt-3"
                             id="type"
                             name="type"
-                            value={formik.values.type}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
                         >
-                            <option defaultValue>Select the type</option>
-                            <option value="MCQ">Mcq</option>
-                            <option value="ESSAY">Essay</option>
-                            <option value="PROBLEM SOLVING">Problem Solving</option>
+                            <option value="" selected>Mcq</option>
                         </select>
-                        {formik.touched.type &&
-                            formik.errors.type ? (
-                            <div className="alert alert-danger mt-3" role="alert">
-                                <i className="fa-solid fa-circle-exclamation me-2"></i>
-                                {formik.errors.type}
-                            </div>
-                        ) : null}
                     </div>
                     {/* choose difficulty */}
                     <div className="col-6 col-md-4">
@@ -238,14 +223,13 @@ export default function McqQuestion() {
                                 </div>
                             ))}
                     </div>
-                    {formik.touched.options &&
+                    {/* {formik.touched.options &&
                         formik.errors.options ? (
                         <div className="alert alert-danger mt-3" role="alert">
                             <i className="fa-solid fa-circle-exclamation me-2"></i>
-                            {formik.errors.options[0]?.text ||
-                                formik.errors.options}
+                            {formik.errors.options}
                         </div>
-                    ) : null}
+                    ) : null} */}
                 </div >
                 <div className="d-flex justify-content-end">
                     < button className="btn btn-dark mt-3" type="submit" >
