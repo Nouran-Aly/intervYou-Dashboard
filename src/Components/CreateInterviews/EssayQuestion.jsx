@@ -27,10 +27,10 @@ export default function EssayQuestion() {
             modelAnswers: Yup.array()
                 .of(
                     Yup.object({
+                        text: Yup.string().required("Question Answer Is Required"),
                         keyPoints: Yup.string().required("Atleast one key point is required"),
                     })
                 )
-                .required("Atleast one key point is required"),
         }),
         onSubmit: (values) => {
             console.log(values, "ESAAAAYYYY");
@@ -195,14 +195,14 @@ export default function EssayQuestion() {
                         <div key={index}>
                             {/* question text */}
                             <div className="mb-3">
-                                <label htmlFor="text" className="form-label fw-medium">
+                                <label htmlFor={`answer${index + 1}`} className="form-label fw-medium">
                                     Write The Question Answer ...
                                 </label>
                                 <textarea
                                     className="form-control"
-                                    id="text"
+                                    id={`answer${index + 1}`}
                                     rows={5}
-                                    name="text"
+                                    name={`modelAnswers[${index}].text`}
                                     values={answer.text || ""}
                                     onChange={(e) => {
                                         const updatedAnswers = [...formik.values.modelAnswers];
@@ -211,11 +211,12 @@ export default function EssayQuestion() {
                                     }}
                                     onBlur={formik.handleBlur}
                                 />
-                                {formik.touched.text &&
-                                    formik.errors.text ? (
+                                {formik.touched.modelAnswers?.[index].text &&
+                                    formik.errors.modelAnswers?.[index].text ? (
                                     <div className="alert alert-danger mt-3" role="alert">
                                         <i className="fa-solid fa-circle-exclamation me-2"></i>
-                                        {formik.errors.text}
+                                        {formik.errors.modelAnswers?.[index].text}
+                                        {/* errroorrr */}
                                     </div>
                                 ) : null}
                             </div>
@@ -240,11 +241,13 @@ export default function EssayQuestion() {
                                     }}
                                     onBlur={formik.handleBlur}
                                 />
+                                {formik.touched.modelAnswers?.[index].keyPoints || formik.errors.modelAnswers?.[index].keyPoints ? (
+                                    <div className="alert alert-danger mt-3" role="alert">
+                                        <i className="fa-solid fa-circle-exclamation me-2"></i>
+                                        {formik.errors.modelAnswers?.[index].keyPoints}
+                                    </div>
+                                ) : null}
 
-                                {/* <div className="alert alert-danger mt-3" role="alert">
-                                <i className="fa-solid fa-circle-exclamation me-2"></i>
-                                {formik.errors.keyPoints}
-                            </div> */}
                             </div>
                         </div>
 

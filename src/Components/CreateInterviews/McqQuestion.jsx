@@ -203,8 +203,8 @@ export default function McqQuestion() {
                                         className="form-control"
                                         id={`choice${index + 1}`}
                                         placeholder={`Write choice ${index + 1}`}
-                                        name={`options[${index}].text`} // Correct Formik field name
-                                        value={option.text || ""} // ✅ Ensure it's a string
+                                        name={`options[${index}].text`}
+                                        value={option.text || ""}
                                         onChange={formik.handleChange}
                                     // onBlur={formik.handleBlur}
                                     />
@@ -214,7 +214,7 @@ export default function McqQuestion() {
                                             className="form-check-input"
                                             name="correctChoice"
                                             checked={correctAnswer === index}
-                                            onChange={() => handleCorrectChoice(index)} // Set the correct choice dynamically
+                                            onChange={() => handleCorrectChoice(index)}
                                         />
                                         <label className="form-check-label">
                                             Correct
