@@ -90,7 +90,7 @@ export default function McqQuestion() {
         <div className='px-5'>
             <h1 className='mb-4'>Mcq Question Area</h1>
             <form onSubmit={formik.handleSubmit}>
-                <div className="row">
+                <div className="row row-gap-4">
                     {/* choose type */}
                     <div className="col-6 col-md-4">
                         <label htmlFor="type" className="fw-medium">

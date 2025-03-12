@@ -87,7 +87,7 @@ export default function EssayQuestion() {
         <div className='px-5'>
             <h1 className='mb-4'>Essay Question Area</h1>
             <form onSubmit={formik.handleSubmit}>
-                <div className="row">
+                <div className="row row-gap-4">
                     {/* choose type */}
                     <div className="col-6 col-md-4">
                         <label htmlFor="type" className="fw-medium">
@@ -190,34 +190,64 @@ export default function EssayQuestion() {
                             ) : null}
                         </div>
                     </div>
-                    {/* answers */}
+                    {/* model answer */}
                     {formik.values.modelAnswers.map((answer, index) => (
-                        <div className="mb-3" key={index}>
-                            <label
-                                htmlFor="essay"
-                                className="form-label fw-medium mt-2"
-                            >
-                                Write The Keypoints ...
-                            </label>
-                            <textarea
-                                className="form-control"
-                                id="essay"
-                                name="keyPoints"
-                                rows={5}
-                                value={answer.keyPoints}
-                                onChange={(e) => {
-                                    const updatedAnswers = [...formik.values.modelAnswers];
-                                    updatedAnswers[index].keyPoints = e.target.value;
-                                    formik.setFieldValue("modelAnswers", updatedAnswers);
-                                }}
-                                onBlur={formik.handleBlur}
-                            />
+                        <div key={index}>
+                            {/* question text */}
+                            <div className="mb-3">
+                                <label htmlFor="text" className="form-label fw-medium">
+                                    Write The Question Answer ...
+                                </label>
+                                <textarea
+                                    className="form-control"
+                                    id="text"
+                                    rows={5}
+                                    name="text"
+                                    values={answer.text || ""}
+                                    onChange={(e) => {
+                                        const updatedAnswers = [...formik.values.modelAnswers];
+                                        updatedAnswers[index].text = e.target.value;
+                                        formik.setFieldValue("modelAnswers", updatedAnswers);
+                                    }}
+                                    onBlur={formik.handleBlur}
+                                />
+                                {formik.touched.text &&
+                                    formik.errors.text ? (
+                                    <div className="alert alert-danger mt-3" role="alert">
+                                        <i className="fa-solid fa-circle-exclamation me-2"></i>
+                                        {formik.errors.text}
+                                    </div>
+                                ) : null}
+                            </div>
+                            {/* key point */}
+                            <div className="mb-3" >
+                                <label
+                                    htmlFor="essay"
+                                    className="form-label fw-medium mt-2"
+                                >
+                                    Write The Keypoints ...
+                                </label>
+                                <textarea
+                                    className="form-control"
+                                    id="essay"
+                                    name="keyPoints"
+                                    rows={5}
+                                    value={answer.keyPoints}
+                                    onChange={(e) => {
+                                        const updatedKeyPoints = [...formik.values.modelAnswers];
+                                        updatedKeyPoints[index].keyPoints = e.target.value;
+                                        formik.setFieldValue("modelAnswers", updatedKeyPoints);
+                                    }}
+                                    onBlur={formik.handleBlur}
+                                />
 
-                            {/* <div className="alert alert-danger mt-3" role="alert">
+                                {/* <div className="alert alert-danger mt-3" role="alert">
                                 <i className="fa-solid fa-circle-exclamation me-2"></i>
                                 {formik.errors.keyPoints}
                             </div> */}
+                            </div>
                         </div>
+
                     ))}
                 </div >
                 <div className="d-flex justify-content-end">

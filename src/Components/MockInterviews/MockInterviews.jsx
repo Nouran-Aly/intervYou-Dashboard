@@ -100,17 +100,6 @@ export default function MockInterviews() {
             });
     }
 
-    //   edit question
-    async function editQuestion(qId) {
-        return axios
-            .put(`https://intervyouquestions.runasp.net/api/Questions/${qId}`)
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                console.log(err.response.data);
-            });
-    }
 
     return (
         <div className='container pb-'>
@@ -199,6 +188,7 @@ export default function MockInterviews() {
                             {/* QUESTION ANSWER */}
                             <div className="d-flex flex-column">
                                 <h5 className='mb-3'>Question Answers</h5>
+                                {/* mcq question */}
                                 {question.type == "mcq" ?
                                     question.questionOptions?.map((option, index) => (
                                         <div key={option.optionId} className='d-flex gap-4'>
@@ -210,9 +200,12 @@ export default function MockInterviews() {
                                             }
                                         </div>
                                     )) :
-                                    question.modelAnswers?.map((answer, index) => (
-                                        <div key={answer.modelAnswerId} className='d-flex gap-4'>
-                                            <p> Key Points:<span className='ms-2'>{answer.keyPoints}</span> </p>
+                                    // {/* essay question */}
+                                    question.modelAnswers?.map((answer) => (
+                                        <div key={answer.modelAnswerId} className='d-flex flex-column gap-2'>
+                                            <p> {answer.text}</p>
+                                            <h5 className=''>Question keyPoints</h5>
+                                            <p> {answer.keyPoints}</p>
                                         </div>
                                     ))
                                 }
