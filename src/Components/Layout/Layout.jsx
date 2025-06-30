@@ -30,7 +30,8 @@ export default function Layout() {
       >
         <CDBSidebarHeader prefix={<i className="fa-solid fa-bars"></i>}>
           <Link
-            href="/"
+            // href="/"
+            to="mock-interview"
             className="text-decoration-none"
             style={{ color: "inherit" }}
           >
@@ -41,27 +42,27 @@ export default function Layout() {
         <CDBSidebarContent className="sidebar-content">
           <CDBSidebarMenu className="nav-item mb-5">
             {/* main */}
-            <NavLink className={styles.navLink}>
+            {/* <NavLink className={styles.navLink}>
               <CDBSidebarMenuItem
                 icon="fa-solid fa-chart-line"
                 className={styles.navbarItem}
               >
-                {/* <i className="fa-solid fa-chart-line ms-1 me-3"></i> */}
+                <i className="fa-solid fa-chart-line ms-1 me-3"></i>
                 Dashboard
               </CDBSidebarMenuItem>
-            </NavLink>
+            </NavLink> */}
 
             {/* students */}
-            <NavLink className={styles.navLink} to="/students">
+            {/* <NavLink className={styles.navLink} to="/students">
               <CDBSidebarMenuItem
                 icon="fa-solid fa-user-plus"
                 className={styles.navbarItem}
               >
-                {/* <i className="fa-solid fa-user-plus ms-1 me-3"></i> */}
+                <i className="fa-solid fa-user-plus ms-1 me-3"></i>
 
                 Students
               </CDBSidebarMenuItem>
-            </NavLink>
+            </NavLink> */}
 
             {/* Mock interviews */}
             <NavLink to="mock-interview" className={styles.navLink}>
