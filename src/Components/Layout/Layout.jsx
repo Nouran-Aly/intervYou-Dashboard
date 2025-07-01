@@ -21,7 +21,7 @@ export default function Layout() {
         height: "100%",
         minHeight: "100vh",
         overflow: "scroll initial",
-      }}
+        }}
     >
       <CDBSidebar
         textColor="#ffffff"

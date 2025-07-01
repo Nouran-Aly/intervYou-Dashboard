@@ -29,11 +29,12 @@ function App() {
       path: "",
       element: <Layout />,
       children: [
-        { path: "", element: <Dashboard /> },
+        // { path: "", element: <Dashboard /> },
         { path: "students", element: <Students /> },
         {
           path: "create-interview", element: <CreateInterviews />
         },
+        { path: "", element: <MockInterviews /> },
         { path: "mock-interview", element: <MockInterviews /> },
         { path: "mcqQuestion", element: <McqQuestion /> },
         { path: "essayQuestion", element: <EssayQuestion /> },
